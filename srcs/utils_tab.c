@@ -6,11 +6,37 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:22:36 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/05 21:59:05 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/06 16:05:01 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+char	**ft_deep_copy_tab(char **tab)
+{
+	char	**copy;
+	size_t	i;
+
+	if (!tab)
+		return (NULL);
+	copy = ft_calloc(size_tab(tab) + 1, sizeof(char *));
+	if (!copy)
+		return (NULL);
+	i = 0;
+	while (tab && tab[i])
+	{
+		copy[i] = ft_strdup(tab[i]);
+		if (!copy[i])
+		{
+			free_tab(copy);
+			ft_putstr_fd("Error : No memory\n", 2);
+			return (NULL);
+		}
+		i++;
+	}
+	copy[i] = NULL;
+	return (copy);
+}
 
 size_t	size_tab(char **tab)
 {

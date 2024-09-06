@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:21:59 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/06 12:29:22 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:05:18 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ t_color	set_color(char	**descriptor, char *keyword)
 // 	printf("Path : %s\n", t.path);
 // }
 
-int	check_textures(t_texture *t, void *mlx_ptr)
+int	check_textures(t_texture *t, t_data *d)
 {
 	size_t	i;
 
@@ -122,15 +122,53 @@ int	check_textures(t_texture *t, void *mlx_ptr)
 	{
 		if (!t[i].path || !t[i].img)
 		{
-			printf("%s\n", t[i].id);
 			ft_putstr_fd("Invalid path or invalid img\n", 2);
-			free_textures(t, mlx_ptr);
+			d->map = NULL;
+			free_data(d);
 			return (FALSE);
 		}
 		i++;
 	}
 	return (TRUE);
 }
+
+int	check_color(t_color c, t_data *d)
+{
+	int trig;
+
+	trig = TRUE;
+	if (c.rgb.r < 0 || c.rgb.r > 255)
+		trig = FALSE;
+	else if (c.rgb.g < 0 || c.rgb.g > 255)
+		trig = FALSE;
+	else if (c.rgb.b < 0 || c.rgb.b > 255)
+		trig = FALSE;
+	if (trig == FALSE)
+	{
+		ft_putstr_fd("Invalid color\n", 2);
+		d->map = NULL;
+		free_data(d);
+		return (trig);
+	}
+	return (trig);
+}
+
+// void	write_map(char **map)
+// {
+// 	int fd = open("CURRENT_MAP", O_CREAT | O_RDWR);
+// 	if (fd == -1)
+// 	{
+// 		printf("??\n");
+// 		return ;
+// 	}
+// 	int	i = 0;
+// 	while (map && map[i])
+// 	{
+// 		ft_putendl_fd(map[i], fd);
+// 		i++;
+// 	}
+// 	close(fd);
+// }
 
 t_data	*init_data(char **descriptor)
 {
@@ -139,22 +177,39 @@ t_data	*init_data(char **descriptor)
 	d = malloc(sizeof(t_data));
 	if (!d)
 		return (NULL);
-
+	d->win_ptr = NULL;
 	d->mlx_ptr = mlx_init();
 	if (!d->mlx_ptr)
 	{
 		free(d);
 		return (NULL);
 	}
+	d->descriptor = descriptor;
 	d->textures[NO] = set_texture(descriptor, "NO", d->mlx_ptr);
 	d->textures[SO] = set_texture(descriptor, "SO", d->mlx_ptr);
 	d->textures[WE] = set_texture(descriptor, "WE", d->mlx_ptr);
 	d->textures[EA] = set_texture(descriptor, "EA", d->mlx_ptr);
-	if (!check_textures(d->textures, d->mlx_ptr))
+	if (check_textures(d->textures, d) == FALSE)
 		return (NULL);
 	d->ceiling = set_color(descriptor, "C");
+	if (check_color(d->ceiling, d) == FALSE)
+		return (NULL);
 	d->floor = set_color(descriptor, "F");
 	d->map = get_map(descriptor);
+	if (!d->map)
+	{
+		ft_putstr_fd("Error : Invalid Map\n", 2);
+		free_data(d);
+		return (NULL);
+	}
 	free_tab(descriptor);
+	d->descriptor = NULL;
+	d->win_ptr = mlx_new_window(d->mlx_ptr, 1920, 1080, "cub3d");
+	if (!d->win_ptr)
+	{
+		ft_putstr_fd("Error : Can't open window\n", 2);
+		free_data(d);
+		return (NULL);
+	}
 	return (d);
 }

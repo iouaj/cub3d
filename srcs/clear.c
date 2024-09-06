@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:04:53 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/06 12:24:47 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/06 14:56:57 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,16 @@ void	free_textures(t_texture *t, void *mlx_ptr)
 void	free_data(t_data *d)
 {
 	free_tab(d->map);
+	free_tab(d->descriptor);
 	free_textures(d->textures, d->mlx_ptr);
+	if (d->win_ptr)
+	{
+		mlx_destroy_window(d->mlx_ptr, d->win_ptr);
+	}
 	if (d->mlx_ptr)
+	{
 		mlx_destroy_display(d->mlx_ptr);
-	if (d->mlx_ptr)
 		free(d->mlx_ptr);
+	}
 	free(d);
 }

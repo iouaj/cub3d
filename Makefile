@@ -16,8 +16,10 @@ SRC_FILES = main.c \
 			checkmap.c \
 			init.c \
 			clear.c \
+			utils.c \
 			utils_tab.c \
 			map.c \
+			render.c \
 			gnl/get_next_line.c \
 			gnl/get_next_line_utils.c
 

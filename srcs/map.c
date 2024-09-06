@@ -6,24 +6,17 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 21:31:45 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/05 22:46:04 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/06 15:06:26 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	is_wspace(char c)
-{
-	if ((c >= 9 && c <= 13) || c == ' ')
-		return (TRUE);
-	return (FALSE);
-}
-
 int	is_carac_valid(char c)
 {
-	if (c == '1')
+	if (c == 'F')
 		return (TRUE);
-	if (c == '0')
+	if (c == 'C')
 		return (TRUE);
 	if (c == 'N')
 		return (TRUE);
@@ -45,13 +38,14 @@ static int	get_index(char **descriptor)
 	while (descriptor && descriptor[i])
 	{
 		j = 0;
-		while (is_wspace(descriptor[i][j]))
+		while (is_wspace(descriptor[i][j]) == TRUE)
 			j++;
-		while (is_carac_valid(descriptor[i][j]))
-			j++;
-		if (descriptor[i][j] == 0)
+		if (is_carac_valid(descriptor[i][j]) == TRUE)
+			i++;
+		else if (descriptor[i][j] != 0)
 			break ;
-		i++;
+		else
+			i++;
 	}
 	return (i);
 }

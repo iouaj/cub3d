@@ -6,6 +6,9 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <errno.h>
+# include <X11/keysym.h>
+# include <X11/X.h>
+# include <math.h>
 # include <../mlx_linux/mlx.h>
 
 # define TRUE 0
@@ -13,6 +16,8 @@
 
 # define WALL 1
 # define SPACE 0
+
+# define ESC 65307
 
 enum TEXT
 {
@@ -49,15 +54,27 @@ typedef struct s_data {
 	t_color		floor;
 	t_color		ceiling;
 	char		**map;
-	void	*mlx_ptr;
+	char		**descriptor;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	int			pos_x;
+	int			pos_y;
 }	t_data;
+
+void	loop(t_data *data);
 
 t_data	*init_data(char **descriptor);
 char	**get_map(char **descriptor);
 
+int	is_map_valid(char **map, t_data *d);
 
+//utils tab
+char	**ft_deep_copy_tab(char **tab);
 size_t	size_tab(char **tab);
 void	free_tab(char **tab);
+
+int	is_wspace(char c);
+int	is_in_set(char *set, char c);
 
 void	free_textures(t_texture *t, void *mlx_ptr);
 void	free_data(t_data *d);
