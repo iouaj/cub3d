@@ -17,6 +17,7 @@ SRC_FILES = main.c \
 			init.c \
 			clear.c \
 			utils_tab.c \
+			map.c \
 			gnl/get_next_line.c \
 			gnl/get_next_line_utils.c
 
@@ -36,7 +37,7 @@ norminette:
 	@$(CC) -Wall -Wextra -Werror -I/usr/include -Imlx_linux -O3 -c $< -o $@
 
 $(NAME) : $(MLX) $(LIBFT) $(OBJS)
-	@$(CC) $(OBJS) $(LIBFT) -I $(INCLUDES) -Lmlx_linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
+	$(CC) $(OBJS) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 $(MLX) :
 	@make -C $(MLX_PATH) --no-print-directory

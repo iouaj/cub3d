@@ -6,6 +6,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <errno.h>
+# include <../mlx_linux/mlx.h>
 
 # define TRUE 0
 # define FALSE 1
@@ -24,6 +25,9 @@ enum TEXT
 typedef struct s_texture
 {
 	char	*path;
+	void	*img;
+	int		width;
+	int		height;
 	char	*id;
 }	t_texture;
 
@@ -44,11 +48,17 @@ typedef struct s_data {
 	t_texture	textures[4];
 	t_color		floor;
 	t_color		ceiling;
-	t_list		*map;
+	char		**map;
+	void	*mlx_ptr;
 }	t_data;
 
 t_data	*init_data(char **descriptor);
+char	**get_map(char **descriptor);
+
 
 size_t	size_tab(char **tab);
 void	free_tab(char **tab);
+
+void	free_textures(t_texture *t, void *mlx_ptr);
+void	free_data(t_data *d);
 #endif

@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:21:59 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/05 18:28:48 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/06 12:29:22 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_path(char *line, char *keyword)
 	return (temp);
 }
 
-t_texture	set_texture(char **descriptor, char *keyword)
+t_texture	set_texture(char **descriptor, char *keyword, void *mlx_ptr)
 {
 	char	*line;
 	t_texture	t;
@@ -58,6 +58,7 @@ t_texture	set_texture(char **descriptor, char *keyword)
 	if (!line)
 		return (t);
 	t.path = get_path(line, keyword);
+	t.img = mlx_xpm_file_to_image(mlx_ptr, t.path, &t.width, &t.height);
 	return (t);
 }
 
@@ -100,16 +101,35 @@ t_color	set_color(char	**descriptor, char *keyword)
 	return (c);
 }
 
-void	print_color(t_color c)
-{
-	printf("ID : %s\n", c.id);
-	printf("RGB : %d,%d,%d\n", c.rgb.r, c.rgb.g, c.rgb.b);
-}
+// void	print_color(t_color c)
+// {
+// 	printf("ID : %s\n", c.id);
+// 	printf("RGB : %d,%d,%d\n", c.rgb.r, c.rgb.g, c.rgb.b);
+// }
 
-void	print_texture(t_texture t)
+// void	print_texture(t_texture t)
+// {
+// 	printf("ID : %s\n", t.id);
+// 	printf("Path : %s\n", t.path);
+// }
+
+int	check_textures(t_texture *t, void *mlx_ptr)
 {
-	printf("ID : %s\n", t.id);
-	printf("Path : %s\n", t.path);
+	size_t	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (!t[i].path || !t[i].img)
+		{
+			printf("%s\n", t[i].id);
+			ft_putstr_fd("Invalid path or invalid img\n", 2);
+			free_textures(t, mlx_ptr);
+			return (FALSE);
+		}
+		i++;
+	}
+	return (TRUE);
 }
 
 t_data	*init_data(char **descriptor)
@@ -120,14 +140,21 @@ t_data	*init_data(char **descriptor)
 	if (!d)
 		return (NULL);
 
-	d->textures[NO] = set_texture(descriptor, "NO");
-	d->textures[SO] = set_texture(descriptor, "SO");
-	d->textures[WE] = set_texture(descriptor, "WE");
-	d->textures[EA] = set_texture(descriptor, "EA");
+	d->mlx_ptr = mlx_init();
+	if (!d->mlx_ptr)
+	{
+		free(d);
+		return (NULL);
+	}
+	d->textures[NO] = set_texture(descriptor, "NO", d->mlx_ptr);
+	d->textures[SO] = set_texture(descriptor, "SO", d->mlx_ptr);
+	d->textures[WE] = set_texture(descriptor, "WE", d->mlx_ptr);
+	d->textures[EA] = set_texture(descriptor, "EA", d->mlx_ptr);
+	if (!check_textures(d->textures, d->mlx_ptr))
+		return (NULL);
 	d->ceiling = set_color(descriptor, "C");
 	d->floor = set_color(descriptor, "F");
-
-	print_color(d->ceiling);
-	print_color(d->floor);
+	d->map = get_map(descriptor);
+	free_tab(descriptor);
 	return (d);
 }

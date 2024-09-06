@@ -16,7 +16,7 @@ static int	is_inset(char const *set, char c)
 	int	i;
 
 	i = 0;
-	while (set[i])
+	while (set && set[i])
 	{
 		if (c == set[i])
 			return (1);
@@ -39,6 +39,8 @@ static char	*cpy(char const *src, char *dest, int len)
 	return (dest);
 }
 
+#include <stdio.h>
+
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		i;
@@ -51,9 +53,9 @@ char	*ft_strtrim(char const *s1, char const *set)
 	len = ft_strlen(s1);
 	while (is_inset(set, s1[i]) && s1[i])
 		i++;
-	while (is_inset(set, s1[len - 1]) && !(len < i))
+	while (!(len <= i) && is_inset(set, s1[len - 1]))
 		len--;
-	if (i >= (int)ft_strlen(s1) || !len || len < i)
+	if (i >= (int)ft_strlen(s1) || !len || len <= i)
 	{
 		trim = malloc(sizeof(char) * 1);
 		trim[0] = 0;

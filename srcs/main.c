@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:51:11 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/05 18:20:59 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/05 22:44:44 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ char	**lst_to_tab(t_list *lst)
 	tmp = lst;
 	while (lst)
 	{
+		printf("%s", (char *)lst->content);
 		tab[i] = ft_strtrim(lst->content, "\n");
 		if (!tab[i])
 		{
@@ -92,15 +93,13 @@ int main(int argc, char *argv[])
 		perror("Can't open the file: ");
 		return (1);
 	}
-	// print_map(descriptor);
-
 	d = init_data(descriptor);
 	if (!d)
 	{
-		free(descriptor);
+		free_tab(descriptor);
 		return (1);
 	}
-
-	free_tab(descriptor);
+	print_map(d->map);
+	free_data(d);
 	return (0);
 }
