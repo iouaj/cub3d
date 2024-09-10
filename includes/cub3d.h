@@ -14,10 +14,18 @@
 # define TRUE 0
 # define FALSE 1
 
-# define WALL 1
-# define SPACE 0
+# define VERTICAL 1
+# define HORIZONTAL 0
+
+# define WALL '1'
+# define SPACE '0'
 
 # define ESC 65307
+
+# define CELLSIZE 64
+
+# define WIN_HEIGHT 1080
+# define WIN_WIDTH 1920
 
 enum TEXT
 {
@@ -26,6 +34,15 @@ enum TEXT
 	WE,
 	EA
 };
+
+typedef struct s_img
+{
+	void	*img;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+}	t_img;
 
 typedef struct s_texture
 {
@@ -59,9 +76,15 @@ typedef struct s_data {
 	void		*win_ptr;
 	int			pos_x;
 	int			pos_y;
+	t_img		*img;
 }	t_data;
 
 void	loop(t_data *data);
+
+void	pixel_put_img(t_img *img, int x, int y, int color);
+t_img	create_img(t_data *d);
+
+unsigned int	rgb_to_decimal(t_color c);
 
 t_data	*init_data(char **descriptor);
 char	**get_map(char **descriptor);
@@ -72,6 +95,11 @@ int	is_map_valid(char **map, t_data *d);
 char	**ft_deep_copy_tab(char **tab);
 size_t	size_tab(char **tab);
 void	free_tab(char **tab);
+
+//raycasting
+void	check_horizontal(t_data *d, int angle);
+
+double	absolute(double nb);
 
 int	is_wspace(char c);
 int	is_in_set(char *set, char c);

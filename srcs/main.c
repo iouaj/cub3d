@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:51:11 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/06 16:33:18 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/10 17:14:50 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ int main(int argc, char *argv[])
 	}
 	if (is_map_valid(d->map, d) == FALSE)
 	{
+		free_data(d);
 		ft_putstr_fd("Error : Invalid Map\n", 2);
 		return (1);
 	}

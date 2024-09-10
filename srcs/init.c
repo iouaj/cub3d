@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:21:59 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/06 15:05:18 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:56:06 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_texture	set_texture(char **descriptor, char *keyword, void *mlx_ptr)
 
 	t.id = keyword;
 	t.path = NULL;
+	t.img = NULL;
 	line = ft_search_keyword_line(descriptor, keyword);
 	if (!line)
 		return (t);
@@ -101,18 +102,6 @@ t_color	set_color(char	**descriptor, char *keyword)
 	return (c);
 }
 
-// void	print_color(t_color c)
-// {
-// 	printf("ID : %s\n", c.id);
-// 	printf("RGB : %d,%d,%d\n", c.rgb.r, c.rgb.g, c.rgb.b);
-// }
-
-// void	print_texture(t_texture t)
-// {
-// 	printf("ID : %s\n", t.id);
-// 	printf("Path : %s\n", t.path);
-// }
-
 int	check_textures(t_texture *t, t_data *d)
 {
 	size_t	i;
@@ -153,23 +142,6 @@ int	check_color(t_color c, t_data *d)
 	return (trig);
 }
 
-// void	write_map(char **map)
-// {
-// 	int fd = open("CURRENT_MAP", O_CREAT | O_RDWR);
-// 	if (fd == -1)
-// 	{
-// 		printf("??\n");
-// 		return ;
-// 	}
-// 	int	i = 0;
-// 	while (map && map[i])
-// 	{
-// 		ft_putendl_fd(map[i], fd);
-// 		i++;
-// 	}
-// 	close(fd);
-// }
-
 t_data	*init_data(char **descriptor)
 {
 	t_data	*d;
@@ -178,6 +150,7 @@ t_data	*init_data(char **descriptor)
 	if (!d)
 		return (NULL);
 	d->win_ptr = NULL;
+	d->img = NULL;
 	d->mlx_ptr = mlx_init();
 	if (!d->mlx_ptr)
 	{
