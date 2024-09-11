@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 15:06:05 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/11 14:14:11 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:36:08 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,13 @@ void	pixel_put_img(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
+	if (x > WIN_WIDTH || x < 0 || y > WIN_HEIGHT || y < 0)
+	{
+		printf("Error : Out of windows (%d, %d)\n", x, y);
+		return ;
+	}
+
+	// printf("(%d,%d)\n", x, y);
 	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
 	*(unsigned int*)dst = color;
 }

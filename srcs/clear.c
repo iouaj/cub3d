@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:04:53 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/11 14:14:19 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/11 17:39:44 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	free_textures(t_texture *t, void *mlx_ptr)
 
 void	free_img(t_img *img, void *mlx_ptr)
 {
+	if (!img)
+		return ;
 	mlx_destroy_image(mlx_ptr, img->img);
 	free(img);
 }

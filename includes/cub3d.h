@@ -21,11 +21,22 @@
 # define SPACE '0'
 
 # define ESC 65307
+# define LEFT 65361
+# define RIGHT 65363
 
-# define CELLSIZE 64
+# define FRONT 122
+# define BACK 115
+
+// # define CELLSIZE 64
 
 # define WIN_HEIGHT 1080
 # define WIN_WIDTH 1920
+
+# define BLUE 0x0000FF
+# define GREEN 0x00FF00
+
+# define ROT_SPEED 0.1
+# define MOVE_SPEED 0.25
 
 enum TEXT
 {
@@ -49,8 +60,6 @@ typedef struct s_ray_val
 	double	deltaDistY;
 	double	rayDirX;
 	double	rayDirY;
-	double	posX;
-	double	posY;
 }	t_ray;
 
 typedef struct s_img
@@ -92,12 +101,21 @@ typedef struct s_data {
 	char		**descriptor;
 	void		*mlx_ptr;
 	void		*win_ptr;
-	int			pos_x;
-	int			pos_y;
+	double			pos_x;
+	double		pos_y;
+	double		dirX;
+	double		dirY;
+	double		planeX;
+	double		planeY;
 	t_img		*img;
+	size_t		action;
 }	t_data;
 
 void	loop(t_data *data);
+
+//movement
+void	front_move(t_data *d);
+void	back_move(t_data *d);
 
 void	pixel_put_img(t_img *img, int x, int y, int color);
 t_img	*create_img(t_data *d);
@@ -115,8 +133,8 @@ size_t	size_tab(char **tab);
 void	free_tab(char **tab);
 
 //raycasting
-void	check_horizontal(t_data *d, int angle);
-t_ray	create_ray(int angle, t_data *d);
+void	raycasting(t_data *d, int angle, int x, t_img *img);
+t_ray	create_ray(int angle, int x, t_data *d);
 
 double	absolute(double nb);
 
@@ -125,4 +143,5 @@ int	is_in_set(char *set, char c);
 
 void	free_textures(t_texture *t, void *mlx_ptr);
 void	free_data(t_data *d);
+void	free_img(t_img *img, void *mlx_ptr);
 #endif

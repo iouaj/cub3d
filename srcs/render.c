@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:39:12 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/11 14:13:48 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/11 23:52:06 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,34 @@ int	handle_keypress(int key, t_data *d)
 	printf("Key : %d\n", key);
 	if (key == ESC)
 		leave(d);
+	if (key == LEFT)
+	{
+		printf("LEFT\n");
+		double oldDirX = d->dirX;
+		d->dirX = d->dirX * cos(ROT_SPEED) - d->dirY * sin(ROT_SPEED);
+		d->dirY = oldDirX * sin(ROT_SPEED) + d->dirY * cos(ROT_SPEED);
+		double oldPlaneX = d->planeX;
+		d->planeX = d->planeX * cos(ROT_SPEED) - d->planeY * sin(ROT_SPEED);
+		d->planeY = oldPlaneX * sin(ROT_SPEED) + d->planeY * cos(ROT_SPEED);
+		d->action++;
+		printf("dirX : %f dirY : %f\n", d->dirX, d->dirY);
+	}
+	if (key == RIGHT)
+	{
+		printf("RIGHT");
+		double oldDirX = d->dirX;
+		d->dirX = d->dirX * cos(-ROT_SPEED) - d->dirY * sin(-ROT_SPEED);
+		d->dirY = oldDirX * sin(-ROT_SPEED) + d->dirY * cos(-ROT_SPEED);
+		double oldPlaneX = d->planeX;
+		d->planeX = d->planeX * cos(-ROT_SPEED) - d->planeY * sin(-ROT_SPEED);
+		d->planeY = oldPlaneX * sin(-ROT_SPEED) + d->planeY * cos(-ROT_SPEED);
+		d->action++;
+		printf("dirX : %f dirY : %f\n", d->dirX, d->dirY);
+	}
+	if (key == FRONT)
+		front_move(d);
+	if (key == BACK)
+		back_move(d);
 	return (1);
 }
 
@@ -75,12 +103,12 @@ void	render_background(t_img	*img, t_data *d)
 
 int	render(t_data *d)
 {
-	static int	i = 0;
-	int	angle;
+	static size_t	i = 0;
+	// int	angle;
 	t_img	*img;
 
 
-	if (i == 0)
+	if (i == d->action)
 	{
 		img = create_img(d);
 		if (!img)
@@ -89,15 +117,16 @@ int	render(t_data *d)
 			free_data(d);
 			exit(EXIT_FAILURE);
 		}
-		render_background(img, d);
-		angle = 90;
-		int	j = angle - 30;
-		while (j <= angle + 30)
+		//render_background(img, d);
+		printf("(%f,%f)\n", d->pos_x, d->pos_y);
+		int	x = 0;
+		while (x <= WIN_WIDTH)
 		{
-			check_horizontal(d, j);
-			j++;
+			raycasting(d, 60, x, img);
+			x++;
 		}
-		free(d->img);
+		mlx_put_image_to_window(d->mlx_ptr, d->win_ptr, img->img, 0, 0);
+		free_img(d->img, d->mlx_ptr);
 		d->img = img;
 		i++;
 	}
