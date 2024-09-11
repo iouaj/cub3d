@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:04:53 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/10 17:15:33 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:14:19 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,12 @@ void	free_textures(t_texture *t, void *mlx_ptr)
 	}
 }
 
+void	free_img(t_img *img, void *mlx_ptr)
+{
+	mlx_destroy_image(mlx_ptr, img->img);
+	free(img);
+}
+
 void	free_data(t_data *d)
 {
 	if (d->map)
@@ -44,6 +50,8 @@ void	free_data(t_data *d)
 	{
 		mlx_destroy_window(d->mlx_ptr, d->win_ptr);
 	}
+	if (d->img)
+		free_img(d->img, d->mlx_ptr);
 	if (d->mlx_ptr)
 	{
 		mlx_destroy_display(d->mlx_ptr);

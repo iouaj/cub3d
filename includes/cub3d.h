@@ -35,6 +35,24 @@ enum TEXT
 	EA
 };
 
+typedef struct s_ray_val
+{
+	int	angle;
+	int	hitside;
+	int	stepX;
+	int	stepY;
+	int	mapX;
+	int	mapY;
+	double	sideDistX;
+	double	sideDistY;
+	double	deltaDistX;
+	double	deltaDistY;
+	double	rayDirX;
+	double	rayDirY;
+	double	posX;
+	double	posY;
+}	t_ray;
+
 typedef struct s_img
 {
 	void	*img;
@@ -82,7 +100,7 @@ typedef struct s_data {
 void	loop(t_data *data);
 
 void	pixel_put_img(t_img *img, int x, int y, int color);
-t_img	create_img(t_data *d);
+t_img	*create_img(t_data *d);
 
 unsigned int	rgb_to_decimal(t_color c);
 
@@ -98,6 +116,7 @@ void	free_tab(char **tab);
 
 //raycasting
 void	check_horizontal(t_data *d, int angle);
+t_ray	create_ray(int angle, t_data *d);
 
 double	absolute(double nb);
 

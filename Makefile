@@ -21,6 +21,7 @@ SRC_FILES = main.c \
 			map.c \
 			render.c \
 			raycasting.c \
+			raycasting_utils.c \
 			gnl/get_next_line.c \
 			gnl/get_next_line_utils.c
 

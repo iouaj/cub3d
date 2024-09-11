@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 15:06:05 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/10 18:53:12 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:14:11 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,25 @@ void	pixel_put_img(t_img *img, int x, int y, int color)
 	*(unsigned int*)dst = color;
 }
 
-t_img	create_img(t_data *d)
+t_img	*create_img(t_data *d)
 {
-	t_img	img;
+	t_img	*img;
 
-	img.img = mlx_new_image(d->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
-	if (!img.img)
+	img = malloc(sizeof(t_img));
+	if (!img)
+		return (NULL);
+	img->img = mlx_new_image(d->mlx_ptr, WIN_WIDTH, WIN_HEIGHT);
+	if (!img->img)
 	{
-		img.addr = NULL;
-		return (img);
+		free(img);
+		return (NULL);
 	}
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.line_length, &img.endian);
-	if (!img.addr)
+	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+	if (!img->addr)
 	{
-		mlx_destroy_image(d->mlx_ptr, img.img);
-		img.img = NULL;
+		mlx_destroy_image(d->mlx_ptr, img->img);
+		free(img);
+		return (NULL);
 	}
 	return (img);
 }

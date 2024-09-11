@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:39:12 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/10 18:54:53 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:13:48 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,30 @@ int	render(t_data *d)
 {
 	static int	i = 0;
 	int	angle;
+	t_img	*img;
 
-	t_img	img;
 
 	if (i == 0)
 	{
 		img = create_img(d);
-		if (!img.img)
+		if (!img)
 		{
 			ft_putstr_fd("Fail to create img.\n", 2);
 			free_data(d);
-			exit(0);
+			exit(EXIT_FAILURE);
 		}
-		render_background(&img, d);
+		render_background(img, d);
 		angle = 90;
 		int	j = angle - 30;
 		while (j <= angle + 30)
 		{
-			// check_horizontal(d, j);
+			check_horizontal(d, j);
 			j++;
 		}
+		free(d->img);
+		d->img = img;
+		i++;
 	}
-	// free_data(d);
-	// exit(0);
 	return (1);
 }
 
