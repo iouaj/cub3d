@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:21:59 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/11 17:06:25 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/12 15:35:48 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,9 +185,6 @@ t_data	*init_data(char **descriptor)
 		return (NULL);
 	}
 	d->action = 0;
-	d->dirX = -1;
-	d->dirY = 0;
-	d->planeX = 0;
-	d->planeY = 0.66;
+	d->wait = 0;
 	return (d);
 }

@@ -21,11 +21,13 @@
 # define SPACE '0'
 
 # define ESC 65307
-# define LEFT 65361
-# define RIGHT 65363
+# define LEFT_CAM 65361
+# define RIGHT_CAM 65363
 
-# define FRONT 122
+# define FRONT 119
 # define BACK 115
+# define RIGHT 100
+# define LEFT 97
 
 // # define CELLSIZE 64
 
@@ -36,7 +38,7 @@
 # define GREEN 0x00FF00
 
 # define ROT_SPEED 0.1
-# define MOVE_SPEED 0.25
+# define MOVE_SPEED 0.15
 
 enum TEXT
 {
@@ -48,7 +50,6 @@ enum TEXT
 
 typedef struct s_ray_val
 {
-	int	angle;
 	int	hitside;
 	int	stepX;
 	int	stepY;
@@ -109,6 +110,7 @@ typedef struct s_data {
 	double		planeY;
 	t_img		*img;
 	size_t		action;
+	int			wait;
 }	t_data;
 
 void	loop(t_data *data);
@@ -116,6 +118,8 @@ void	loop(t_data *data);
 //movement
 void	front_move(t_data *d);
 void	back_move(t_data *d);
+void	right_move(t_data *d);
+void	left_move(t_data *d);
 
 void	pixel_put_img(t_img *img, int x, int y, int color);
 t_img	*create_img(t_data *d);
@@ -133,8 +137,8 @@ size_t	size_tab(char **tab);
 void	free_tab(char **tab);
 
 //raycasting
-void	raycasting(t_data *d, int angle, int x, t_img *img);
-t_ray	create_ray(int angle, int x, t_data *d);
+void	raycasting(t_data *d, int x, t_img *img);
+t_ray	create_ray(int x, t_data *d);
 
 double	absolute(double nb);
 

@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:51:26 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/10 17:16:18 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:28:09 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,38 @@ int	check_border(int x, int y, char **map)
 	return (TRUE);
 }
 
+void	set_dir(t_data *d, char c)
+{
+	if (c == 'N')
+	{
+		d->dirX = 0;
+		d->dirY = 1;
+		d->planeX = 0.66;
+		d->planeY = 0;
+	}
+	else if (c == 'S')
+	{
+		d->dirX = 0;
+		d->dirY = -1;
+		d->planeX = -0.66;
+		d->planeY = 0;
+	}
+	else if (c == 'W')
+	{
+		d->dirX = -1;
+		d->dirY = 0;
+		d->planeX = 0;
+		d->planeY = -0.66;
+	}
+	else if (c == 'E')
+	{
+		d->dirX = 1;
+		d->dirY = 0;
+		d->planeX = 0;
+		d->planeY = 0.66;
+	}
+}
+
 int	check_start_position(char **map, t_data *d)
 {
 	size_t	i;
@@ -71,6 +103,7 @@ int	check_start_position(char **map, t_data *d)
 				trigger++;
 				d->pos_x = j;
 				d->pos_y = i;
+				set_dir(d, map[i][j]);
 			}
 			j++;
 		}

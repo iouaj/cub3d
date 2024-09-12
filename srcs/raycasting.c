@@ -6,43 +6,46 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 21:54:15 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/11 17:35:35 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:58:09 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
-
-//x variable if vertical wall
-//y variable if horizontal wall
-double	get_distance(int map, double pos, double step, double rayDir)
-{
-	return ((map - pos + (1 - step) / 2) / rayDir);
-}
 
 int	get_wall_height(double distance)
 {
 	return ((int)(WIN_HEIGHT / distance));
 }
 
-void	draw_line(int x, int drawStart, int drawEnd, int color, t_img *img)
+void	draw_line(int x, int drawStart, int drawEnd, int color, t_img *img, t_data *d)
 {
 	int	y;
 
-	y = drawStart;
+	y = 0;
+	while (y < drawStart)
+	{
+		pixel_put_img(img, x, y, rgb_to_decimal(d->ceiling));
+		y++;
+	}
 	while (y < drawEnd)
 	{
 		pixel_put_img(img, x, y, color);
 		y++;
 	}
+	while (y < WIN_HEIGHT)
+	{
+		pixel_put_img(img, x, y, rgb_to_decimal(d->floor));
+		y++;
+	}
 }
 
-void	find_wall(t_ray *ray, char **map, int x, t_img *img)
+void	find_wall(t_ray *ray, char **map, int x, t_img *img, t_data *d)
 {
 	double	perpWallDist;
 	int		lineHeight;
-	int drawStart;
-	int drawEnd;
-	int	color;
+	int		drawStart;
+	int		drawEnd;
+	int		color;
 
 	while (map[ray->mapY][ray->mapX] != WALL)
 	{
@@ -59,36 +62,30 @@ void	find_wall(t_ray *ray, char **map, int x, t_img *img)
 			ray->hitside = HORIZONTAL;
 		}
 	}
-	// printf("Il y a un mur en (%d, %d)\n", ray->mapX, ray->mapY);
-	// printf("SideDist : %f - Delta Dist : %f = %f\n", ray->sideDistX, ray->deltaDistX, ray->sideDistX - ray->deltaDistX);
-	// printf("SideDist : %f - Delta Dist : %f = %f\n", ray->sideDistY, ray->deltaDistY, ray->sideDistY - ray->deltaDistY);
-
 	if (ray->hitside == VERTICAL)
 	{
-		perpWallDist = ray->sideDistX - ray->deltaDistX;
+		perpWallDist = (ray->mapX - d->pos_x + (1 - ray->stepX) / 2) / ray->rayDirX;
 		color = BLUE;
 	}
 	else
 	{
-		perpWallDist = ray->sideDistY - ray->deltaDistY;
+		perpWallDist = (ray->mapY - d->pos_y + (1 - ray->stepY) / 2) / ray->rayDirY;
 		color = GREEN;
 	}
+
 	lineHeight = get_wall_height(perpWallDist);
-	// printf("lineHeight : %d\n", lineHeight);
 	drawStart = -lineHeight / 2 + WIN_HEIGHT / 2;
 	if (drawStart < 0)
 		drawStart = 0;
 	drawEnd = lineHeight / 2 + WIN_HEIGHT / 2;
-	if(drawEnd >= WIN_HEIGHT)
+	if (drawEnd >= WIN_HEIGHT)
 		drawEnd = WIN_HEIGHT - 1;
-	draw_line(x, drawStart, drawEnd, color, img);
+	draw_line(x, drawStart, drawEnd, color, img, d);
 }
 
-void	raycasting(t_data *d, int angle, int x, t_img *img)
+void	raycasting(t_data *d, int x, t_img *img)
 {
 	t_ray	ray;
-	// printf("angle %d\n", angle);
-	ray = create_ray(angle, x, d);
-	find_wall(&ray, d->map, x, img);
-	// printf("--------------------------\n");
+	ray = create_ray(x, d);
+	find_wall(&ray, d->map, x, img, d);
 }
