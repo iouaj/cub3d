@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:21:59 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/12 15:35:48 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:09:16 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,14 +52,15 @@ t_texture	set_texture(char **descriptor, char *keyword, void *mlx_ptr)
 	char	*line;
 	t_texture	t;
 
-	t.id = keyword;
 	t.path = NULL;
-	t.img = NULL;
 	line = ft_search_keyword_line(descriptor, keyword);
 	if (!line)
 		return (t);
 	t.path = get_path(line, keyword);
 	t.img = mlx_xpm_file_to_image(mlx_ptr, t.path, &t.width, &t.height);
+	if (!t.img)
+		return (t);
+	t.addr = mlx_get_data_addr(t.img, &t.bits_per_pixel, &t.line_length, &t.endian);
 	return (t);
 }
 
@@ -109,7 +110,7 @@ int	check_textures(t_texture *t, t_data *d)
 	i = 0;
 	while (i < 4)
 	{
-		if (!t[i].path || !t[i].img)
+		if (!t[i].path || !t[i].img || !t[i].addr)
 		{
 			ft_putstr_fd("Invalid path or invalid img\n", 2);
 			d->map = NULL;

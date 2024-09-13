@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:51:26 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/12 18:28:09 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:21:58 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ void	set_dir(t_data *d, char c)
 	if (c == 'N')
 	{
 		d->dirX = 0;
-		d->dirY = 1;
+		d->dirY = -1;
 		d->planeX = 0.66;
 		d->planeY = 0;
 	}
 	else if (c == 'S')
 	{
 		d->dirX = 0;
-		d->dirY = -1;
+		d->dirY = 1;
 		d->planeX = -0.66;
 		d->planeY = 0;
 	}
@@ -83,6 +83,8 @@ void	set_dir(t_data *d, char c)
 		d->planeX = 0;
 		d->planeY = 0.66;
 	}
+	d->planeX = -d->dirY * 0.66;
+	d->planeY = d->dirX * 0.66;
 }
 
 int	check_start_position(char **map, t_data *d)

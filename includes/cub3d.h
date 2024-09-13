@@ -40,6 +40,9 @@
 # define ROT_SPEED 0.1
 # define MOVE_SPEED 0.15
 
+# define TEXTURE_HEIGHT 64
+# define TEXTURE_WIDTH 64
+
 enum TEXT
 {
 	NO,
@@ -78,7 +81,12 @@ typedef struct s_texture
 	void	*img;
 	int		width;
 	int		height;
-	char	*id;
+	char	*addr;
+	int		bits_per_pixel;
+	int		line_length;
+	int		endian;
+	int		textX;
+	int		textY;
 }	t_texture;
 
 typedef struct s_rgb

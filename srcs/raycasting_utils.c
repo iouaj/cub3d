@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:11:31 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/12 18:33:25 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:13:46 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_ray	create_ray(int x, t_data *d)
 	t_ray	ray;
 
 	ray.rayDirX = get_direction_x(d, x);
-	ray.rayDirY = -get_direction_y(d, x);
+	ray.rayDirY = get_direction_y(d, x);
 	if (ray.rayDirX == 0)
 		ray.deltaDistX = 1e30;
 	else

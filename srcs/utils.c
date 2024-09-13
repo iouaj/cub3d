@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 15:06:05 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/12 18:21:56 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:15:02 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	pixel_put_img(t_img *img, int x, int y, int color)
 	if (x > WIN_WIDTH || x < 0 || y > WIN_HEIGHT || y < 0)
 	{
 		printf("Error : Out of windows (%d, %d)\n", x, y);
-		exit (EXIT_FAILURE);
+		return ;
 	}
 
 	// printf("(%d,%d)\n", x, y);

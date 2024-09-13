@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:39:12 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/12 15:31:43 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/13 18:21:15 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	leave(t_data *d)
 	exit(EXIT_SUCCESS);
 }
 
-void	rotate_left(t_data *d)
+void	rotate_right(t_data *d)
 {
 	double oldDirX = d->dirX;
 	d->dirX = d->dirX * cos(ROT_SPEED) - d->dirY * sin(ROT_SPEED);
@@ -29,7 +29,7 @@ void	rotate_left(t_data *d)
 	d->action++;
 }
 
-void	rotate_right(t_data *d)
+void	rotate_left(t_data *d)
 {
 	double oldDirX = d->dirX;
 	d->dirX = d->dirX * cos(-ROT_SPEED) - d->dirY * sin(-ROT_SPEED);
