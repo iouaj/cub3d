@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:21:59 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 17:54:13 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 20:54:45 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,16 @@ void	set_values(t_data *d, char **descriptor)
 	d->map = NULL;
 	d->textures[NO].img = NULL;
 	d->textures[NO].path = NULL;
+	d->textures[NO].addr = NULL;
 	d->textures[SO].img = NULL;
 	d->textures[SO].path = NULL;
+	d->textures[SO].addr = NULL;
 	d->textures[EA].img = NULL;
 	d->textures[EA].path = NULL;
+	d->textures[EA].addr = NULL;
 	d->textures[WE].img = NULL;
 	d->textures[WE].path = NULL;
+	d->textures[WE].addr = NULL;
 	d->descriptor = descriptor;
 	d->action = 0;
 }

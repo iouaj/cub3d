@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:51:11 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 17:51:42 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:14:58 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	main(int argc, char *argv[])
 	}
 	d = init_data(descriptor);
 	if (!d)
-		return (error("Initialization error\n"));
+		return (1);
 	if (is_map_valid(d->map, d) == FALSE)
 	{
 		free_data(d);

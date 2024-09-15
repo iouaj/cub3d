@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:39:12 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 16:22:10 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 21:15:39 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	handle_keypress(int key, t_data *d)
 		right_move(d);
 	else if (key == LEFT)
 		left_move(d);
-	else
-		printf("Key : %d\n", key);
 	return (1);
 }
 
@@ -47,6 +45,7 @@ int	render(t_data *d)
 
 	if (i <= d->action)
 	{
+		printf("%f %f\n", d->pos_x, d->pos_y);
 		img = create_img(d);
 		if (!img)
 		{

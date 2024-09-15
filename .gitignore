@@ -1,3 +1,4 @@
 mlx_linux/
 cub3d
 .vscode/
+.gitignore
