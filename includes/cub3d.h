@@ -24,10 +24,17 @@
 # define LEFT_CAM 65361
 # define RIGHT_CAM 65363
 
-# define FRONT 119
+//QWERTY
+// # define FRONT 119
+// # define BACK 115
+// # define RIGHT 100
+// # define LEFT 97
+
+//AZERTY
+# define FRONT 122
 # define BACK 115
 # define RIGHT 100
-# define LEFT 97
+# define LEFT 113
 
 // # define CELLSIZE 64
 
@@ -40,8 +47,8 @@
 # define ROT_SPEED 0.1
 # define MOVE_SPEED 0.15
 
-# define TEXTURE_HEIGHT 64
-# define TEXTURE_WIDTH 64
+// # define TEXTURE_HEIGHT 64
+// # define TEXTURE_WIDTH 64
 
 enum TEXT
 {
