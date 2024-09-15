@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 15:06:05 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/13 15:15:02 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 16:12:42 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,8 @@ void	pixel_put_img(t_img *img, int x, int y, int color)
 		printf("Error : Out of windows (%d, %d)\n", x, y);
 		return ;
 	}
-
-	// printf("(%d,%d)\n", x, y);
-	dst = img->addr + (y * img->line_length + x * (img->bits_per_pixel / 8));
-	*(unsigned int*)dst = color;
+	dst = img->addr + (y * img->line_length + x * (img->bpp / 8));
+	*(unsigned int *)dst = color;
 }
 
 t_img	*create_img(t_data *d)
@@ -40,7 +38,8 @@ t_img	*create_img(t_data *d)
 		free(img);
 		return (NULL);
 	}
-	img->addr = mlx_get_data_addr(img->img, &img->bits_per_pixel, &img->line_length, &img->endian);
+	img->addr = mlx_get_data_addr(img->img, &img->bpp,
+			&img->line_length, &img->endian);
 	if (!img->addr)
 	{
 		mlx_destroy_image(d->mlx_ptr, img->img);
@@ -53,13 +52,6 @@ t_img	*create_img(t_data *d)
 unsigned int	rgb_to_decimal(t_color c)
 {
 	return (c.rgb.r * pow(256, 2) + c.rgb.g * 256 + c.rgb.b);
-}
-
-double	absolute(double nb)
-{
-	if (nb >= 0)
-		return (0);
-	return (-nb);
 }
 
 int	is_in_set(char *set, char c)

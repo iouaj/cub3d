@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 21:31:45 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/10 15:45:32 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 16:13:09 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	**get_map(char **descriptor)
 	j = 0;
 	while (descriptor && descriptor[i])
 	{
-		map[j] = ft_strdup(descriptor[i]);
+		map[j++] = ft_strdup(descriptor[i]);
 		if (!map)
 		{
 			free_tab(map);
@@ -74,7 +74,6 @@ char	**get_map(char **descriptor)
 			return (NULL);
 		}
 		i++;
-		j++;
 	}
 	map[j] = NULL;
 	return (map);

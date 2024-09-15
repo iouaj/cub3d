@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:04:53 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/11 17:39:44 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 16:07:37 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,11 @@ void	free_data(t_data *d)
 		free(d->mlx_ptr);
 	}
 	free(d);
+}
+
+void	*error_init(char *err, t_data *d)
+{
+	ft_putstr_fd(err, 2);
+	free_data(d);
+	return (NULL);
 }

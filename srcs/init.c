@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:21:59 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/13 18:09:16 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 17:54:13 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,11 @@ char	*ft_search_keyword_line(char **descriptor, char *keyword)
 	return (NULL);
 }
 
-char	*get_path(char *line, char *keyword)
+char	*get_path(char *line, char *key)
 {
 	char	*temp;
 
-	temp = ft_substr(line, ft_strlen(keyword), ft_strlen(line) - ft_strlen(keyword));
+	temp = ft_substr(line, ft_strlen(key), ft_strlen(line) - ft_strlen(key));
 	free(line);
 	if (!temp)
 		return (NULL);
@@ -47,100 +47,29 @@ char	*get_path(char *line, char *keyword)
 	return (temp);
 }
 
-t_texture	set_texture(char **descriptor, char *keyword, void *mlx_ptr)
+void	set_values(t_data *d, char **descriptor)
 {
-	char	*line;
-	t_texture	t;
-
-	t.path = NULL;
-	line = ft_search_keyword_line(descriptor, keyword);
-	if (!line)
-		return (t);
-	t.path = get_path(line, keyword);
-	t.img = mlx_xpm_file_to_image(mlx_ptr, t.path, &t.width, &t.height);
-	if (!t.img)
-		return (t);
-	t.addr = mlx_get_data_addr(t.img, &t.bits_per_pixel, &t.line_length, &t.endian);
-	return (t);
+	d->win_ptr = NULL;
+	d->img = NULL;
+	d->map = NULL;
+	d->textures[NO].img = NULL;
+	d->textures[NO].path = NULL;
+	d->textures[SO].img = NULL;
+	d->textures[SO].path = NULL;
+	d->textures[EA].img = NULL;
+	d->textures[EA].path = NULL;
+	d->textures[WE].img = NULL;
+	d->textures[WE].path = NULL;
+	d->descriptor = descriptor;
+	d->action = 0;
 }
 
-t_rgb	get_rgb(char *line, char *keyword)
+void	get_mlx(t_data *d)
 {
-	t_rgb	rgb;
-	char	**splitter;
-	char	*temp;
-
-	rgb.r = -1;
-	rgb.g = -1;
-	rgb.b = -1;
-	temp = ft_substr(line, ft_strlen(keyword), ft_strlen(line) - ft_strlen(keyword));
-	free(line);
-	line = temp;
-	splitter = ft_split(line, ',');
-	free(line);
-	if (!splitter || size_tab(splitter) != 3)
-		return (rgb);
-	rgb.r = ft_atoi(splitter[0]);
-	rgb.g = ft_atoi(splitter[1]);
-	rgb.b = ft_atoi(splitter[2]);
-	free_tab(splitter);
-	return (rgb);
-}
-
-t_color	set_color(char	**descriptor, char *keyword)
-{
-	char	*line;
-	t_color	c;
-
-	c.id = keyword;
-	c.rgb.r = -1;
-	c.rgb.g = -1;
-	c.rgb.b = -1;
-	line = ft_search_keyword_line(descriptor, keyword);
-	if (!line)
-		return (c);
-	c.rgb = get_rgb(line, keyword);
-	return (c);
-}
-
-int	check_textures(t_texture *t, t_data *d)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		if (!t[i].path || !t[i].img || !t[i].addr)
-		{
-			ft_putstr_fd("Invalid path or invalid img\n", 2);
-			d->map = NULL;
-			free_data(d);
-			return (FALSE);
-		}
-		i++;
-	}
-	return (TRUE);
-}
-
-int	check_color(t_color c, t_data *d)
-{
-	int trig;
-
-	trig = TRUE;
-	if (c.rgb.r < 0 || c.rgb.r > 255)
-		trig = FALSE;
-	else if (c.rgb.g < 0 || c.rgb.g > 255)
-		trig = FALSE;
-	else if (c.rgb.b < 0 || c.rgb.b > 255)
-		trig = FALSE;
-	if (trig == FALSE)
-	{
-		ft_putstr_fd("Invalid color\n", 2);
-		d->map = NULL;
-		free_data(d);
-		return (trig);
-	}
-	return (trig);
+	d->mlx_ptr = mlx_init();
+	if (!d->mlx_ptr)
+		return ;
+	d->win_ptr = mlx_new_window(d->mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "cub3d");
 }
 
 t_data	*init_data(char **descriptor)
@@ -149,43 +78,25 @@ t_data	*init_data(char **descriptor)
 
 	d = malloc(sizeof(t_data));
 	if (!d)
-		return (NULL);
-	d->win_ptr = NULL;
-	d->img = NULL;
-	d->mlx_ptr = mlx_init();
-	if (!d->mlx_ptr)
 	{
-		free(d);
+		free_tab(descriptor);
 		return (NULL);
 	}
-	d->descriptor = descriptor;
-	d->textures[NO] = set_texture(descriptor, "NO", d->mlx_ptr);
-	d->textures[SO] = set_texture(descriptor, "SO", d->mlx_ptr);
-	d->textures[WE] = set_texture(descriptor, "WE", d->mlx_ptr);
-	d->textures[EA] = set_texture(descriptor, "EA", d->mlx_ptr);
+	set_values(d, descriptor);
+	get_mlx(d);
+	if (!d->mlx_ptr || !d->win_ptr)
+		return (error_init("Error : can't get mlx\n", d));
+	get_all_texture(d);
 	if (check_textures(d->textures, d) == FALSE)
 		return (NULL);
-	d->ceiling = set_color(descriptor, "C");
-	if (check_color(d->ceiling, d) == FALSE)
+	get_colors(d);
+	if (check_color(d->ceiling, d) == FALSE
+		|| check_color(d->floor, d) == FALSE)
 		return (NULL);
-	d->floor = set_color(descriptor, "F");
 	d->map = get_map(descriptor);
 	if (!d->map)
-	{
-		ft_putstr_fd("Error : Invalid Map\n", 2);
-		free_data(d);
-		return (NULL);
-	}
-	free_tab(descriptor);
+		return (error_init("Error : Invalid Map\n", d));
+	free_tab(d->descriptor);
 	d->descriptor = NULL;
-	d->win_ptr = mlx_new_window(d->mlx_ptr, 1920, 1080, "cub3d");
-	if (!d->win_ptr)
-	{
-		ft_putstr_fd("Error : Can't open window\n", 2);
-		free_data(d);
-		return (NULL);
-	}
-	d->action = 0;
-	d->wait = 0;
 	return (d);
 }

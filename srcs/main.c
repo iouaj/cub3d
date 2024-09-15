@@ -6,23 +6,23 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:51:11 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/10 17:14:50 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 17:51:42 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-void	print_map(char **map)
-{
-	size_t	i;
+// void	print_map(char **map)
+// {
+// 	size_t	i;
 
-	i = 0;
-	while (map && map[i])
-	{
-		printf("%s\n", map[i]);
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (map && map[i])
+// 	{
+// 		printf("%s\n", map[i]);
+// 		i++;
+// 	}
+// }
 
 char	**lst_to_tab(t_list *lst)
 {
@@ -62,7 +62,8 @@ char	**read_descriptor(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (NULL);
-	while ((line = get_next_line(fd)))
+	line = get_next_line(fd);
+	while (line)
 	{
 		temp = ft_lstnew(line);
 		if (!temp)
@@ -71,21 +72,25 @@ char	**read_descriptor(char *file)
 			return (NULL);
 		}
 		ft_lstadd_back(&map, temp);
+		line = get_next_line(fd);
 	}
 	close(fd);
 	return (lst_to_tab(map));
 }
 
-int main(int argc, char *argv[])
+static int	error(char *err)
+{
+	ft_putstr_fd(err, 2);
+	return (EXIT_FAILURE);
+}
+
+int	main(int argc, char *argv[])
 {
 	char	**descriptor;
 	t_data	*d;
 
 	if (argc == 1)
-	{
-		printf("No map\n");
-		return (0);
-	}
+		return (error("Error : No map\n"));
 	descriptor = read_descriptor(argv[1]);
 	if (!descriptor)
 	{
@@ -94,15 +99,11 @@ int main(int argc, char *argv[])
 	}
 	d = init_data(descriptor);
 	if (!d)
-	{
-		ft_putstr_fd("Initialization error\n", 2);
-		return (1);
-	}
+		return (error("Initialization error\n"));
 	if (is_map_valid(d->map, d) == FALSE)
 	{
 		free_data(d);
-		ft_putstr_fd("Error : Invalid Map\n", 2);
-		return (1);
+		return (error("Error : Invalid Map\n"));
 	}
 	loop(d);
 	free_data(d);

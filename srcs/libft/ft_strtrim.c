@@ -39,8 +39,6 @@ static char	*cpy(char const *src, char *dest, int len)
 	return (dest);
 }
 
-#include <stdio.h>
-
 char	*ft_strtrim(char const *s1, char const *set)
 {
 	int		i;

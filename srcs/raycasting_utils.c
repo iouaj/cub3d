@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 12:11:31 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/13 15:13:46 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 17:27:31 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 static double	get_direction_x(t_data *d, int x)
 {
-	double	rayDirecX;
-	double	cameraX;
+	double	ray_direc_x;
+	double	camera_x;
 
-	cameraX = 2 * x / (double)WIN_WIDTH - 1;
-	rayDirecX = d->dirX + d->planeX * cameraX;
-	return (rayDirecX);
+	camera_x = 2 * x / (double)WIN_WIDTH - 1;
+	ray_direc_x = d->dir_x + d->plane_x * camera_x;
+	return (ray_direc_x);
 }
 
 static double	get_direction_y(t_data *d, int x)
 {
-	double	rayDirectY;
-	double	cameraX;
+	double	ray_direc_y;
+	double	camera_x;
 
-	cameraX = 2 * x / (double)WIN_WIDTH - 1;
-	rayDirectY = d->dirY + d->planeY * cameraX;
-	return (rayDirectY);
+	camera_x = 2 * x / (double)WIN_WIDTH - 1;
+	ray_direc_y = d->dir_y + d->plane_y * camera_x;
+	return (ray_direc_y);
 }
 
 static int	get_step(double rayDir)
@@ -39,7 +39,7 @@ static int	get_step(double rayDir)
 	return (1);
 }
 
-static double	get_sideDist(double pos, int map, double deltaDist, int step)
+static double	get_side_dist(double pos, int map, double deltaDist, int step)
 {
 	if (step == 1)
 		return ((map + 1.0 - pos) * deltaDist);
@@ -51,22 +51,24 @@ t_ray	create_ray(int x, t_data *d)
 {
 	t_ray	ray;
 
-	ray.rayDirX = get_direction_x(d, x);
-	ray.rayDirY = get_direction_y(d, x);
-	if (ray.rayDirX == 0)
-		ray.deltaDistX = 1e30;
+	ray.raydir_x = get_direction_x(d, x);
+	ray.raydir_y = get_direction_y(d, x);
+	if (ray.raydir_x == 0)
+		ray.delta_dist_x = 1e30;
 	else
-		ray.deltaDistX = sqrt(1 + pow(ray.rayDirY / ray.rayDirX, 2));
-	if (ray.rayDirY == 0)
-		ray.deltaDistY = 1e30;
+		ray.delta_dist_x = sqrt(1 + pow(ray.raydir_y / ray.raydir_x, 2));
+	if (ray.raydir_y == 0)
+		ray.delta_dist_y = 1e30;
 	else
-		ray.deltaDistY = sqrt(1 + pow(ray.rayDirX / ray.rayDirY, 2));
-	ray.mapX = (int)d->pos_x;
-	ray.mapY = (int)d->pos_y;
-	ray.stepX = get_step(ray.rayDirX);
-	ray.stepY = get_step(ray.rayDirY);
-	ray.sideDistX = get_sideDist(d->pos_x, ray.mapX, ray.deltaDistX, ray.stepX);
-	ray.sideDistY = get_sideDist(d->pos_y, ray.mapY, ray.deltaDistY, ray.stepY);
+		ray.delta_dist_y = sqrt(1 + pow(ray.raydir_x / ray.raydir_y, 2));
+	ray.map_x = (int)d->pos_x;
+	ray.map_y = (int)d->pos_y;
+	ray.step_x = get_step(ray.raydir_x);
+	ray.step_y = get_step(ray.raydir_y);
+	ray.side_dist_x = get_side_dist(d->pos_x, ray.map_x, ray.delta_dist_x,
+			ray.step_x);
+	ray.side_dist_y = get_side_dist(d->pos_y, ray.map_y, ray.delta_dist_y,
+			ray.step_y);
 	ray.hitside = -1;
 	return (ray);
 }

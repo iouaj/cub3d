@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:39:12 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/13 18:21:15 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 16:22:10 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,28 +16,6 @@ int	leave(t_data *d)
 {
 	free_data(d);
 	exit(EXIT_SUCCESS);
-}
-
-void	rotate_right(t_data *d)
-{
-	double oldDirX = d->dirX;
-	d->dirX = d->dirX * cos(ROT_SPEED) - d->dirY * sin(ROT_SPEED);
-	d->dirY = oldDirX * sin(ROT_SPEED) + d->dirY * cos(ROT_SPEED);
-	double oldPlaneX = d->planeX;
-	d->planeX = d->planeX * cos(ROT_SPEED) - d->planeY * sin(ROT_SPEED);
-	d->planeY = oldPlaneX * sin(ROT_SPEED) + d->planeY * cos(ROT_SPEED);
-	d->action++;
-}
-
-void	rotate_left(t_data *d)
-{
-	double oldDirX = d->dirX;
-	d->dirX = d->dirX * cos(-ROT_SPEED) - d->dirY * sin(-ROT_SPEED);
-	d->dirY = oldDirX * sin(-ROT_SPEED) + d->dirY * cos(-ROT_SPEED);
-	double oldPlaneX = d->planeX;
-	d->planeX = d->planeX * cos(-ROT_SPEED) - d->planeY * sin(-ROT_SPEED);
-	d->planeY = oldPlaneX * sin(-ROT_SPEED) + d->planeY * cos(-ROT_SPEED);
-	d->action++;
 }
 
 int	handle_keypress(int key, t_data *d)
@@ -64,8 +42,8 @@ int	handle_keypress(int key, t_data *d)
 int	render(t_data *d)
 {
 	static size_t	i = 0;
-	t_img	*img;
-
+	t_img			*img;
+	int				x;
 
 	if (i <= d->action)
 	{
@@ -76,8 +54,7 @@ int	render(t_data *d)
 			free_data(d);
 			exit(EXIT_FAILURE);
 		}
-		// printf("(%f,%f)\n", d->pos_x, d->pos_y);
-		int	x = 0;
+		x = 0;
 		while (x < WIN_WIDTH)
 		{
 			raycasting(d, x, img);

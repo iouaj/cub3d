@@ -3,7 +3,8 @@ NAME = cub3d
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-INCLUDES =
+INCLUDES =	includes/cub3d.h \
+			includes/get_next_line.h
 
 MLX_PATH = mlx_linux
 MLX = $(MLX_PATH)/libmlx_linux.a
@@ -14,7 +15,10 @@ LIBFT = $(LIBFT_PATH)/libft.a
 SRC_PATH = srcs
 SRC_FILES = main.c \
 			checkmap.c \
+			checkborder.c \
 			init.c \
+			texture.c \
+			color.c \
 			clear.c \
 			utils.c \
 			utils_tab.c \
@@ -23,6 +27,8 @@ SRC_FILES = main.c \
 			raycasting.c \
 			raycasting_utils.c \
 			movement.c \
+			rotate.c \
+			render_texture.c \
 			gnl/get_next_line.c \
 			gnl/get_next_line_utils.c
 

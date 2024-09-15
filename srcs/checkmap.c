@@ -6,85 +6,36 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:51:26 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/13 18:21:58 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 16:18:01 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-int	valid_value(char c)
-{
-	if (c == WALL)
-		return (TRUE);
-	if (c == SPACE)
-		return (TRUE);
-	if (c == 'A')
-		return (TRUE);
-	return (FALSE);
-}
-
-int	case_valid(int x, int y, char **map)
-{
-	if (x + 1 >= (int)ft_strlen(map[y]) || valid_value(map[y][x + 1]) == FALSE)
-		return (FALSE);
-	if (x - 1 < 0 || valid_value(map[y][x - 1]) == FALSE)
-		return (FALSE);
-	if (y + 1 >= (int)size_tab(map) || x >= (int)ft_strlen(map[y + 1]) || valid_value(map[y + 1][x]) == FALSE)
-		return (FALSE);
-	if (y - 1 < 0 || x >= (int)ft_strlen(map[y - 1]) || valid_value(map[y - 1][x]) == FALSE)
-		return (FALSE);
-	return (TRUE);
-}
-
-int	check_border(int x, int y, char **map)
-{
-	if (x < 0 || y < 0 || y > (int)size_tab(map) || x > (int)ft_strlen(map[y]) || !map[y][x])
-		return (FALSE);
-	if (map[y][x] == SPACE || map[y][x] == 'N' || map[y][x] == 'W' || map[y][x] == 'S' || map[y][x] == 'E')
-	{
-		if (case_valid(x, y, map) == FALSE)
-			return (FALSE);
-		else
-		{
-			map[y][x] = 'A';
-			return (check_border(x - 1, y, map) + check_border(x + 1, y, map) + check_border(x, y - 1, map) + check_border(x, y + 1, map));
-		}
-	}
-	return (TRUE);
-}
-
 void	set_dir(t_data *d, char c)
 {
 	if (c == 'N')
 	{
-		d->dirX = 0;
-		d->dirY = -1;
-		d->planeX = 0.66;
-		d->planeY = 0;
+		d->dir_x = 0;
+		d->dir_y = -1;
 	}
 	else if (c == 'S')
 	{
-		d->dirX = 0;
-		d->dirY = 1;
-		d->planeX = -0.66;
-		d->planeY = 0;
+		d->dir_x = 0;
+		d->dir_y = 1;
 	}
 	else if (c == 'W')
 	{
-		d->dirX = -1;
-		d->dirY = 0;
-		d->planeX = 0;
-		d->planeY = -0.66;
+		d->dir_x = -1;
+		d->dir_y = 0;
 	}
 	else if (c == 'E')
 	{
-		d->dirX = 1;
-		d->dirY = 0;
-		d->planeX = 0;
-		d->planeY = 0.66;
+		d->dir_x = 1;
+		d->dir_y = 0;
 	}
-	d->planeX = -d->dirY * 0.66;
-	d->planeY = d->dirX * 0.66;
+	d->plane_x = -d->dir_y * 0.66;
+	d->plane_y = d->dir_x * 0.66;
 }
 
 int	check_start_position(char **map, t_data *d)
