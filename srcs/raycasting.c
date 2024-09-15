@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 21:54:15 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 12:51:07 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/15 13:24:29 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_texture	get_texture(t_data *d, t_ray *ray)
 	}
 }
 
-void	set_coor_texture(t_ray *ray, t_texture *t, int perpWallDist, t_data *d)
+void	set_coor_texture(t_ray *ray, t_texture *t, double perpWallDist, t_data *d)
 {
 	double	wall;
 
@@ -54,7 +54,7 @@ void	set_coor_texture(t_ray *ray, t_texture *t, int perpWallDist, t_data *d)
 		t->textX =  t->width - t->textX - 1;
 }
 
-void	draw_texture(t_data *d, t_ray *ray, int x, int lineHeight, int drawStart, int drawEnd, int perpWallDist, t_img *img)
+void	draw_texture(t_data *d, t_ray *ray, int x, int drawStart, int drawEnd, t_img *img)
 {
 	t_texture	text;
 	double	step;
@@ -64,10 +64,10 @@ void	draw_texture(t_data *d, t_ray *ray, int x, int lineHeight, int drawStart, i
 	int		color;
 
 	text = get_texture(d, ray);
-	set_coor_texture(ray, &text, perpWallDist, d);
-	step = 1.0 * text.height / lineHeight;
+	set_coor_texture(ray, &text, ray->perpWallDist, d);
+	step = 1.0 * text.height / ray->lineHeight;
 	// printf("step : %f\n", step);
-	textPos = (drawStart - WIN_HEIGHT / 2 + lineHeight / 2) * step;
+	textPos = (drawStart - WIN_HEIGHT / 2 + ray->lineHeight / 2) * step;
 	y = drawStart;
 	// printf("textX %d\n", text.textX);
 	while (y < drawEnd)
@@ -80,7 +80,7 @@ void	draw_texture(t_data *d, t_ray *ray, int x, int lineHeight, int drawStart, i
 	}
 }
 
-void	draw_line(int x, int drawStart, int drawEnd, int color, int lineHeight, t_img *img, t_data *d, t_ray *ray, int perpWallDist)
+void	draw_line(int x, int drawStart, int drawEnd, int color, t_img *img, t_data *d, t_ray *ray)
 {
 	int	y;
 
@@ -91,12 +91,7 @@ void	draw_line(int x, int drawStart, int drawEnd, int color, int lineHeight, t_i
 		pixel_put_img(img, x, y, rgb_to_decimal(d->ceiling));
 		y++;
 	}
-	// while (y < drawEnd)
-	// {
-	// 	pixel_put_img(img, x, y, color);
-	// 	y++;
-	// }
-	draw_texture(d, ray, x, lineHeight, drawStart, drawEnd, perpWallDist, img);
+	draw_texture(d, ray, x, drawStart, drawEnd, img);
 	y = drawEnd;
 	while (y < WIN_HEIGHT)
 	{
@@ -107,8 +102,8 @@ void	draw_line(int x, int drawStart, int drawEnd, int color, int lineHeight, t_i
 
 void	find_wall(t_ray *ray, char **map, int x, t_img *img, t_data *d)
 {
-	double	perpWallDist;
-	int		lineHeight;
+	// double	perpWallDist;
+	// int		lineHeight;
 	int		drawStart;
 	int		drawEnd;
 	int		color;
@@ -131,25 +126,25 @@ void	find_wall(t_ray *ray, char **map, int x, t_img *img, t_data *d)
 	// printf("wall in (%d, %d)\n", ray->mapX, ray->mapY);
 	if (ray->hitside == VERTICAL)
 	{
-		perpWallDist = (ray->mapX - d->pos_x + (1 - ray->stepX) / 2) / ray->rayDirX;
+		ray->perpWallDist = (ray->mapX - d->pos_x + (1 - ray->stepX) / 2) / ray->rayDirX;
 		// perpWallDist = ray->sideDistX - ray->deltaDistX;
 		color = BLUE;
 	}
 	else
 	{
-		perpWallDist = (ray->mapY - d->pos_y + (1 - ray->stepY) / 2) / ray->rayDirY;
+		ray->perpWallDist = (ray->mapY - d->pos_y + (1 - ray->stepY) / 2) / ray->rayDirY;
 		// perpWallDist = ray->sideDistY - ray->deltaDistY;
 		color = GREEN;
 	}
-b ,
-	lineHeight = get_wall_height(perpWallDist);
-	drawStart = -lineHeight / 2 + WIN_HEIGHT / 2;
+
+	ray->lineHeight = get_wall_height(ray->perpWallDist);
+	drawStart = -ray->lineHeight / 2 + WIN_HEIGHT / 2;
 	if (drawStart < 0)
 		drawStart = 0;
-	drawEnd = lineHeight / 2 + WIN_HEIGHT / 2;
+	drawEnd = ray->lineHeight / 2 + WIN_HEIGHT / 2;
 	if (drawEnd >= WIN_HEIGHT)
 		drawEnd = WIN_HEIGHT - 1;
-	draw_line(x, drawStart, drawEnd, color, lineHeight, img, d, ray, perpWallDist);
+	draw_line(x, drawStart, drawEnd, color, img, d, ray);
 }
 
 void	raycasting(t_data *d, int x, t_img *img)

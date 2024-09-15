@@ -65,6 +65,10 @@ typedef struct s_ray_val
 	int	stepY;
 	int	mapX;
 	int	mapY;
+	int	drawStart;
+	int	drawEnd;
+	int	lineHeight;
+	double	perpWallDist;
 	double	sideDistX;
 	double	sideDistY;
 	double	deltaDistX;
