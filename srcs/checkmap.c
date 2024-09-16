@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:51:26 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 21:23:40 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:42:56 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int	check_start_position(char **map, t_data *d)
 			if (is_in_set("NSEW", map[i][j]) == TRUE)
 			{
 				trigger++;
-				d->pos_x = j;
-				d->pos_y = i;
+				d->pos_x = j + 0.5;
+				d->pos_y = i + 0.5;
 				set_dir(d, map[i][j]);
 			}
 			j++;

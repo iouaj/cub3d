@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/11 17:42:27 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 21:23:07 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:44:17 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	is_position_free(t_data *d, double x, double y)
 {
-	if (y >= 0 && y < size_tab(d->map) && x >= 0
-		&& x < ft_strlen(d->map[(int)y]))
+	if (y >= 0.25 && y < size_tab(d->map) - 0.25 && x >= 0.25
+		&& x < ft_strlen(d->map[(int)y]) - 0.25)
 	{
 		if (d->map[(int)y][(int)x] != '1')
 			return (TRUE);

@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 21:54:15 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 21:17:21 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:45:39 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static void	find_wall(t_ray *ray, int x, t_img *img, t_data *d)
 			ray->hitside = HORIZONTAL;
 		}
 	}
-	// printf("X : %d Y %d\n", ray->map_x, ray->map_y);
 	get_draw_range(ray, d);
 	draw_line(x, img, d, ray);
 }

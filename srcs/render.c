@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:39:12 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 21:15:39 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:45:23 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ int	render(t_data *d)
 
 	if (i <= d->action)
 	{
-		printf("%f %f\n", d->pos_x, d->pos_y);
 		img = create_img(d);
 		if (!img)
 		{
