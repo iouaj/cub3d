@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 21:54:15 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/16 12:45:39 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:57:48 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ static void	get_draw_range(t_ray *ray, t_data *d)
 	}
 	ray->line_height = (int)(WIN_HEIGHT / ray->per_wall_dist);
 	ray->draw_start = -ray->line_height / 2 + WIN_HEIGHT / 2;
-	if (ray->draw_start < 0)
+	if (ray->draw_start < 0 || ray->draw_start >= WIN_HEIGHT)
 		ray->draw_start = 0;
 	ray->draw_end = ray->line_height / 2 + WIN_HEIGHT / 2;
-	if (ray->draw_end >= WIN_HEIGHT)
+	if (ray->draw_end >= WIN_HEIGHT || ray->draw_end < 0)
 		ray->draw_end = WIN_HEIGHT - 1;
 }
 

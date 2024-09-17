@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:21:54 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 17:58:59 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:06:59 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,16 @@
 # define RIGHT_CAM 65363
 
 //QWERTY
-// # define FRONT 119
-// # define BACK 115
-// # define RIGHT 100
-// # define LEFT 97
-
-//AZERTY
-# define FRONT 122
+# define FRONT 119
 # define BACK 115
 # define RIGHT 100
-# define LEFT 113
+# define LEFT 97
+
+// //AZERTY
+// # define FRONT 122
+// # define BACK 115
+// # define RIGHT 100
+// # define LEFT 113
 
 // # define CELLSIZE 64
 
@@ -152,6 +152,7 @@ void			front_move(t_data *d);
 void			back_move(t_data *d);
 void			right_move(t_data *d);
 void			left_move(t_data *d);
+double			get_margin(double dir);
 //rotation
 void			rotate_right(t_data *d);
 void			rotate_left(t_data *d);

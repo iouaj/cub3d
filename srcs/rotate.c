@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 16:21:51 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 16:22:16 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/17 18:06:28 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,13 @@ void	rotate_left(t_data *d)
 	d->plane_x = d->plane_x * cos(-ROT_SPEED) - d->plane_y * sin(-ROT_SPEED);
 	d->plane_y = old_plane_x * sin(-ROT_SPEED) + d->plane_y * cos(-ROT_SPEED);
 	d->action++;
+}
+
+double	get_margin(double dir)
+{
+	if (dir > 0)
+		return (0.25);
+	if (dir == 0)
+		return (0);
+	return (-0.25);
 }
