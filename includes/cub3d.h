@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:21:54 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/17 18:06:59 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:06:08 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,6 @@ typedef struct s_data
 	double		plane_x;
 	double		plane_y;
 	t_img		*img;
-	size_t		action;
 }	t_data;
 
 void			loop(t_data *data);

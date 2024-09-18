@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 14:39:12 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/17 18:06:21 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:05:19 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,30 +39,25 @@ int	handle_keypress(int key, t_data *d)
 
 int	render(t_data *d)
 {
-	static size_t	i = 0;
 	t_img			*img;
 	int				x;
 
-	if (i <= d->action)
+	img = create_img(d);
+	if (!img)
 	{
-		img = create_img(d);
-		if (!img)
-		{
-			ft_putstr_fd("Fail to create img.\n", 2);
-			free_data(d);
-			exit(EXIT_FAILURE);
-		}
-		x = 0;
-		while (x < WIN_WIDTH)
-		{
-			raycasting(d, x, img);
-			x++;
-		}
-		mlx_put_image_to_window(d->mlx_ptr, d->win_ptr, img->img, 0, 0);
-		free_img(d->img, d->mlx_ptr);
-		d->img = img;
-		i++;
+		ft_putstr_fd("Fail to create img.\n", 2);
+		free_data(d);
+		exit(EXIT_FAILURE);
 	}
+	x = 0;
+	while (x < WIN_WIDTH)
+	{
+		raycasting(d, x, img);
+		x++;
+	}
+	mlx_put_image_to_window(d->mlx_ptr, d->win_ptr, img->img, 0, 0);
+	free_img(d->img, d->mlx_ptr);
+	d->img = img;
 	return (1);
 }
 

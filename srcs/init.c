@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:21:59 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/17 15:16:15 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:04:55 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ void	set_values(t_data *d, char **descriptor)
 	d->textures[WE].path = NULL;
 	d->textures[WE].addr = NULL;
 	d->descriptor = descriptor;
-	d->action = 0;
 }
 
 void	get_mlx(t_data *d)

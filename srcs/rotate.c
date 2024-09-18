@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 16:21:51 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/17 18:06:28 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:06:02 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	rotate_right(t_data *d)
 	old_plane_x = d->plane_x;
 	d->plane_x = d->plane_x * cos(ROT_SPEED) - d->plane_y * sin(ROT_SPEED);
 	d->plane_y = old_plane_x * sin(ROT_SPEED) + d->plane_y * cos(ROT_SPEED);
-	d->action++;
 }
 
 void	rotate_left(t_data *d)
@@ -37,7 +36,6 @@ void	rotate_left(t_data *d)
 	old_plane_x = d->plane_x;
 	d->plane_x = d->plane_x * cos(-ROT_SPEED) - d->plane_y * sin(-ROT_SPEED);
 	d->plane_y = old_plane_x * sin(-ROT_SPEED) + d->plane_y * cos(-ROT_SPEED);
-	d->action++;
 }
 
 double	get_margin(double dir)
