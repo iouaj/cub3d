@@ -56,6 +56,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (i >= (int)ft_strlen(s1) || !len || len <= i)
 	{
 		trim = malloc(sizeof(char) * 1);
+		if (!trim)
+			return (NULL);
 		trim[0] = 0;
 		return (trim);
 	}

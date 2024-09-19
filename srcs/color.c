@@ -6,11 +6,32 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 15:17:33 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/19 14:59:57 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:24:41 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
+
+char	**clean_tab(char **tab)
+{
+	size_t	i;
+	char	*tmp;
+
+	i = 0;
+	while (tab && tab[i])
+	{
+		tmp = ft_strtrim(tab[i], " \n\t\v\r\f");
+		if (!tmp)
+		{
+			free_tab(tab);
+			return (NULL);
+		}
+		free(tab[i]);
+		tab[i] = tmp;
+		i++;
+	}
+	return (tab);
+}
 
 t_rgb	get_rgb(char *line, char *key)
 {
@@ -24,9 +45,10 @@ t_rgb	get_rgb(char *line, char *key)
 	temp = ft_substr(line, ft_strlen(key), ft_strlen(line) - ft_strlen(key));
 	free(line);
 	line = temp;
-	splitter = ft_split(line, ',');
+	splitter = clean_tab(ft_split(line, ','));
 	free(line);
-	if (!splitter || size_tab(splitter) != 3)
+	if (!splitter || size_tab(splitter) != 3 || ft_strlen(splitter[0]) > 3
+		|| ft_strlen(splitter[1]) > 3 || ft_strlen(splitter[2]) > 3)
 	{
 		free_tab(splitter);
 		return (rgb);

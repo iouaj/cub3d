@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:51:11 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/19 15:12:29 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/19 16:37:48 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,8 @@ char	**read_descriptor(char *file)
 		temp = ft_lstnew(line);
 		if (!temp)
 		{
+			close(fd);
+			free(line);
 			ft_lstclear(&map, free);
 			return (NULL);
 		}
@@ -111,10 +113,7 @@ int	main(int argc, char *argv[])
 		return (error("Error: File not .cub\n"));
 	descriptor = read_descriptor(argv[1]);
 	if (!descriptor)
-	{
-		perror("Can't open the file: ");
-		return (1);
-	}
+		return (error("Error: fatal in parsing file\n"));
 	d = init_data(descriptor);
 	if (!d)
 		return (1);
