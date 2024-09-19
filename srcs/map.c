@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 21:31:45 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 16:13:09 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:55:07 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,37 @@ static int	get_index(char **descriptor)
 	}
 	return (i);
 }
+
+// static int	check_line(char *str)
+// {
+// 	if (!ft_strncmp(str, "NO", 2))
+// 		return (TRUE);
+// 	if (!ft_strncmp(str, "SO", 2))
+// 		return (TRUE);
+// 	if (!ft_strncmp(str, "EA", 2))
+// 		return (TRUE);
+// 	if (!ft_strncmp(str, "WE", 2))
+// 		return (TRUE);
+// 	if (!ft_strncmp(str, "F", 1))
+// 		return (TRUE);
+// 	if (!ft_strncmp(str, "C", 1))
+// 		return (TRUE);
+// 	return (FALSE);
+// }
+
+// static int	get_index(char **descriptor)
+// {
+// 	size_t	i;
+
+// 	i = 0;
+// 	while (descriptor && descriptor[i])
+// 	{
+// 		if (check_line(descriptor[i]) == FALSE)
+// 			return (i);
+// 		i++;
+// 	}
+// 	return (i);
+// }
 
 char	**get_map(char **descriptor)
 {

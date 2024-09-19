@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 18:22:36 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 15:55:04 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:39:11 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,4 +61,25 @@ void	free_tab(char **tab)
 		i++;
 	}
 	free(tab);
+}
+
+char	**clean_tab(char **tab)
+{
+	size_t	i;
+	char	*tmp;
+
+	i = 0;
+	while (tab && tab[i])
+	{
+		tmp = ft_strtrim(tab[i], " \n\t\v\r\f");
+		if (!tmp)
+		{
+			free_tab(tab);
+			return (NULL);
+		}
+		free(tab[i]);
+		tab[i] = tmp;
+		i++;
+	}
+	return (tab);
 }

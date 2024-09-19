@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:21:59 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/18 13:04:55 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:26:53 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,29 @@ char	*ft_search_keyword_line(char **descriptor, char *keyword)
 {
 	size_t	i;
 	char	*line;
+	char	*target;
+	int		trigger;
 
 	i = 0;
+	target = NULL;
+	trigger = 0;
 	while (descriptor && descriptor[i])
 	{
 		line = ft_strtrim(descriptor[i], " \n\t\v\r\f");
 		if (!line)
 			return (NULL);
 		if (!ft_strncmp(line, keyword, ft_strlen(keyword)))
-			return (line);
-		free(line);
+		{
+			target = line;
+			trigger++;
+		}
+		else
+			free(line);
 		i++;
 	}
-	return (NULL);
+	if (trigger > 1)
+		return (NULL);
+	return (target);
 }
 
 char	*get_path(char *line, char *key)

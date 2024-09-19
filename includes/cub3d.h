@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:21:54 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/18 13:06:08 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/19 17:39:31 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,7 @@ int				check_border(int x, int y, char **map);
 char			**ft_deep_copy_tab(char **tab);
 size_t			size_tab(char **tab);
 void			free_tab(char **tab);
+char			**clean_tab(char **tab);
 
 //raycasting
 void			raycasting(t_data *d, int x, t_img *img);
