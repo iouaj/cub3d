@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 15:17:33 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 16:07:17 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/19 14:59:57 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ t_rgb	get_rgb(char *line, char *key)
 	splitter = ft_split(line, ',');
 	free(line);
 	if (!splitter || size_tab(splitter) != 3)
+	{
+		free_tab(splitter);
 		return (rgb);
+	}
 	rgb.r = ft_atoi(splitter[0]);
 	rgb.g = ft_atoi(splitter[1]);
 	rgb.b = ft_atoi(splitter[2]);

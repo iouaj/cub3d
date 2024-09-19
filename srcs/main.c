@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 16:51:11 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/15 21:14:58 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/19 15:12:29 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,13 +84,31 @@ static int	error(char *err)
 	return (EXIT_FAILURE);
 }
 
+int	check_name_file(char *str)
+{
+	char	*ext;
+	int		ret;
+
+	ext = ft_substr(str, ft_strlen(str) - 4, 4);
+	if (!ext)
+		return (error("Error : fatal\n"));
+	if (ft_strncmp(ext, ".cub", 5))
+		ret = FALSE;
+	else
+		ret = TRUE;
+	free(ext);
+	return (ret);
+}
+
 int	main(int argc, char *argv[])
 {
 	char	**descriptor;
 	t_data	*d;
 
-	if (argc == 1)
-		return (error("Error : No map\n"));
+	if (argc != 2)
+		return (error("Error : too much or missing arguments\n"));
+	if (check_name_file(argv[1]) == FALSE)
+		return (error("Error: File not .cub\n"));
 	descriptor = read_descriptor(argv[1]);
 	if (!descriptor)
 	{

@@ -7,7 +7,7 @@ INCLUDES =	includes/cub3d.h \
 			includes/get_next_line.h
 
 MLX_PATH = mlx_linux
-MLX = $(MLX_PATH)/libmlx_linux.a
+MLX = $(MLX_PATH)/libmlx_Linux.a
 
 LIBFT_PATH = srcs/libft
 LIBFT = $(LIBFT_PATH)/libft.a
@@ -51,7 +51,7 @@ $(NAME) : $(MLX) $(LIBFT) $(OBJS)
 	$(CC) $(OBJS) $(LIBFT) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
 
 $(MLX) :
-	@make -C $(MLX_PATH) --no-print-directory
+	@if [ ! -f $(MLX) ]; then make -C $(MLX_PATH) --no-print-directory; fi
 
 $(LIBFT) :
 	@make -C $(LIBFT_PATH) --no-print-directory
