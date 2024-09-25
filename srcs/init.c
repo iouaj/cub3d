@@ -6,39 +6,49 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 17:21:59 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/19 17:26:53 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:10:24 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub3d.h"
 
-char	*ft_search_keyword_line(char **descriptor, char *keyword)
-{
-	size_t	i;
-	char	*line;
-	char	*target;
-	int		trigger;
+// char	*ft_search_keyword_line(char **descriptor, char *keyword)
+// {
+// 	size_t	i;
+// 	char	*line;
+// 	char	*target;
+// 	int		trigger;
 
-	i = 0;
-	target = NULL;
-	trigger = 0;
-	while (descriptor && descriptor[i])
-	{
-		line = ft_strtrim(descriptor[i], " \n\t\v\r\f");
-		if (!line)
-			return (NULL);
-		if (!ft_strncmp(line, keyword, ft_strlen(keyword)))
-		{
-			target = line;
-			trigger++;
-		}
-		else
-			free(line);
-		i++;
-	}
-	if (trigger > 1)
-		return (NULL);
-	return (target);
+// 	i = 0;
+// 	target = NULL;
+// 	trigger = 0;
+// 	while (descriptor && descriptor[i])
+// 	{
+// 		line = ft_strtrim(descriptor[i], " \n\t\v\r\f");
+// 		if (!line)
+// 			return (NULL);
+// 		if (!ft_strncmp(line, keyword, ft_strlen(keyword)))
+// 		{
+// 			target = line;
+// 			trigger++;
+// 		}
+// 		else
+// 			free(line);
+// 		i++;
+// 	}
+// 	if (trigger > 1)
+// 		return (NULL);
+// 	return (target);
+// }
+
+int	check(t_data *d)
+{
+	if (check_textures(d->textures, d) == FALSE)
+		return (FALSE);
+	if (check_color(d->ceiling, d) == FALSE
+		|| check_color(d->floor, d) == FALSE)
+		return (FALSE);
+	return (TRUE);
 }
 
 char	*get_path(char *line, char *key)
@@ -74,6 +84,14 @@ void	set_values(t_data *d, char **descriptor)
 	d->textures[WE].img = NULL;
 	d->textures[WE].path = NULL;
 	d->textures[WE].addr = NULL;
+	d->ceiling.id = NULL;
+	d->ceiling.rgb.r = -1;
+	d->ceiling.rgb.g = -1;
+	d->ceiling.rgb.b = -1;
+	d->floor.id = NULL;
+	d->floor.rgb.r = -1;
+	d->floor.rgb.g = -1;
+	d->floor.rgb.b = -1;
 	d->descriptor = descriptor;
 }
 
@@ -88,6 +106,7 @@ void	get_mlx(t_data *d)
 t_data	*init_data(char **descriptor)
 {
 	t_data	*d;
+	int		index;
 
 	d = malloc(sizeof(t_data));
 	if (!d)
@@ -99,14 +118,12 @@ t_data	*init_data(char **descriptor)
 	get_mlx(d);
 	if (!d->mlx_ptr || !d->win_ptr)
 		return (error_init("Error : can't get mlx\n", d));
-	get_all_texture(d);
-	if (check_textures(d->textures, d) == FALSE)
+	index = parse_descriptor(d);
+	if (index == -1)
 		return (NULL);
-	get_colors(d);
-	if (check_color(d->ceiling, d) == FALSE
-		|| check_color(d->floor, d) == FALSE)
+	if (check(d) == FALSE)
 		return (NULL);
-	d->map = get_map(descriptor);
+	d->map = get_map(descriptor, index);
 	if (!d->map)
 		return (error_init("Error : Invalid Map\n", d));
 	free_tab(d->descriptor);

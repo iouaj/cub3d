@@ -29,6 +29,7 @@ SRC_FILES = main.c \
 			movement.c \
 			rotate.c \
 			render_texture.c \
+			parsing.c \
 			gnl/get_next_line.c \
 			gnl/get_next_line_utils.c
 

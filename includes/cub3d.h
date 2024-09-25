@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 17:21:54 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/19 17:39:31 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:32:36 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,9 @@ typedef struct s_data
 
 void			loop(t_data *data);
 
+int				parse_descriptor(t_data *d);
+t_color			set_color(char	*line, char *keyword);
+
 //movement
 void			front_move(t_data *d);
 void			back_move(t_data *d);
@@ -162,11 +165,8 @@ t_img			*create_img(t_data *d);
 unsigned int	rgb_to_decimal(t_color c);
 
 t_data			*init_data(char **descriptor);
-char			**get_map(char **descriptor);
-char			*ft_search_keyword_line(char **descriptor, char *keyword);
+char			**get_map(char **descriptor, int index);
 char			*get_path(char *line, char *key);
-void			get_colors(t_data *d);
-void			get_all_texture(t_data *d);
 int				check_color(t_color c, t_data *d);
 int				check_textures(t_texture *t, t_data *d);
 

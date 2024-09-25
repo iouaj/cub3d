@@ -6,7 +6,7 @@
 /*   By: iouajjou <iouajjou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 15:17:33 by iouajjou          #+#    #+#             */
-/*   Updated: 2024/09/19 17:40:08 by iouajjou         ###   ########.fr       */
+/*   Updated: 2024/09/25 14:32:05 by iouajjou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,26 +60,20 @@ t_rgb	get_rgb(char *line, char *key)
 	return (rgb);
 }
 
-t_color	set_color(char	**descriptor, char *keyword)
+t_color	set_color(char *line, char *keyword)
 {
-	char	*line;
+	char	*line_color;
 	t_color	c;
 
 	c.id = keyword;
 	c.rgb.r = -1;
 	c.rgb.g = -1;
 	c.rgb.b = -1;
-	line = ft_search_keyword_line(descriptor, keyword);
-	if (!line)
-		return (c);
-	c.rgb = get_rgb(line, keyword);
+	line_color = ft_strdup(line);
+	if (!line_color)
+		return (ft_putstr_fd("Error : alloc fail\n", 2), c);
+	c.rgb = get_rgb(line_color, keyword);
 	return (c);
-}
-
-void	get_colors(t_data *d)
-{
-	d->ceiling = set_color(d->descriptor, "C");
-	d->floor = set_color(d->descriptor, "F");
 }
 
 int	check_color(t_color c, t_data *d)
